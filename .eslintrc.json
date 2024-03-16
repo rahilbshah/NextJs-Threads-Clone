@@ -1,3 +1,21 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@next/next/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "react/jsx-no-target-blank": "off",
+    "arrow-parens": ["error", "as-needed"],
+    "react/prop-types": 0,
+    "no-unused-vars": "off",
+    "no-trailing-spaces": "warn",
+    "failOnError": 0,
+    "react/no-unescaped-entities": "off",
+    "no-use-before-define": "off",
+    "react/jsx-uses-react": "warn",
+    "react/react-in-jsx-scope": "off"
+  }
 }

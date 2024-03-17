@@ -11,7 +11,6 @@ const ActivityPage = async () => {
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect('/onboarding');
   const activity = await getActivity(userInfo._id);
-  console.log(activity.length);
   return (
     <>
       <h1 className="head-text">Activity</h1>

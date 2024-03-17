@@ -16,9 +16,7 @@ export async function fetchThreads(pageNumber = 1, pageSize = 20) {
     const skipAmount = (pageNumber - 1) * pageSize;
 
     // Create a query to fetch the threads that have no parent (top-level threads) (a thread that is not a comment/reply).
-    const threadsQuery = Thread.find({
-      parentId: { $in: [null, undefined] },
-    })
+    const threadsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
       .sort({ createdAt: 'desc' })
       .skip(skipAmount)
       .limit(pageSize)
@@ -38,6 +36,7 @@ export async function fetchThreads(pageNumber = 1, pageSize = 20) {
           select: '_id name parentId image', // Select only _id and username fields of the author
         },
       });
+
     // Count the total number of top-level threads (threads) i.e., threads that are not comments.
     const totalThreadsCount = await Thread.countDocuments({
       parentId: { $in: [null, undefined] },
@@ -49,9 +48,10 @@ export async function fetchThreads(pageNumber = 1, pageSize = 20) {
 
     return { threads, isNext };
   } catch (error: any) {
-    throw new Error(`Failed to fetch user: ${error.message}`);
+    throw new Error(`Failed to create thread: ${error.message}`);
   }
 }
+
 interface Params {
   text: string;
   author: string;
@@ -67,25 +67,30 @@ export async function createThread({
 }: Params) {
   try {
     connectToDB();
+
     const communityIdObject = await Community.findOne(
       { id: communityId },
       { _id: 1 },
     );
+
     const createdThread = await Thread.create({
       text,
       author,
       community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
     });
+
     // Update User model
     await User.findByIdAndUpdate(author, {
       $push: { threads: createdThread._id },
     });
+
     if (communityIdObject) {
       // Update Community model
       await Community.findByIdAndUpdate(communityIdObject, {
         $push: { threads: createdThread._id },
       });
     }
+
     revalidatePath(path);
   } catch (error: any) {
     throw new Error(`Failed to create thread: ${error.message}`);
@@ -107,11 +112,14 @@ async function fetchAllChildThreads(threadId: string): Promise<any[]> {
 export async function deleteThread(id: string, path: string): Promise<void> {
   try {
     connectToDB();
+
     // Find the thread to be deleted (the main thread)
     const mainThread = await Thread.findById(id).populate('author community');
+
     if (!mainThread) {
       throw new Error('Thread not found');
     }
+
     // Fetch all child threads and their descendants recursively
     const descendantThreads = await fetchAllChildThreads(id);
 

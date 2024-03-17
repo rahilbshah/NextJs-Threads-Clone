@@ -17,6 +17,7 @@ import {
   removeUserFromCommunity,
   updateCommunityInfo,
 } from '@/lib/actions/community.actions';
+import { communityBio } from '@/constants';
 
 // Resource: https://clerk.com/docs/integration/webhooks#supported-events
 // Above document lists the supported events
@@ -76,7 +77,7 @@ export const POST = async (request: Request) => {
         name,
         slug,
         logo_url || image_url,
-        'org bio',
+        communityBio,
         created_by,
       );
 

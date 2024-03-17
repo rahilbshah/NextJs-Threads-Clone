@@ -5,12 +5,6 @@ import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 const Home = async () => {
-  const user = await currentUser();
-  if (!user) return null;
-
-  const userInfo = await fetchUser(user.id);
-  if (!userInfo?.onboarded) redirect('/onboarding');
-
   const { threads, isNext } = await fetchThreads(1, 30);
   return (
     <>
@@ -24,7 +18,7 @@ const Home = async () => {
               <ThreadCard
                 key={thread._id}
                 id={thread._id}
-                currentUserId={user.id}
+                currentUserId={''}
                 parentId={thread.parentId}
                 content={thread.text}
                 author={thread.author}

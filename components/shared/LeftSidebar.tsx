@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { SignOutButton, SignedIn, useAuth } from '@clerk/nextjs';
+import { SignInButton, SignOutButton, SignedIn, useAuth } from '@clerk/nextjs';
 
 import { sidebarLinks } from '@/constants';
 
@@ -38,6 +38,22 @@ const LeftSidebar = () => {
             </Link>
           );
         })}
+        {!userId && (
+          <SignInButton>
+            <div
+              className='leftsidebar_link cursor-pointer'
+            >
+              <Image
+                src={'/assets/login.svg'}
+                alt={'Login'}
+                width={24}
+                height={24}
+              />
+
+              <p className="text-light-1 max-lg:hidden">Login</p>
+            </div>
+          </SignInButton>
+        )}
       </div>
       <div className="mt-10 px-6">
         <SignedIn>

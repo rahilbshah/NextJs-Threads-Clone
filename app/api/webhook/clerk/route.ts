@@ -148,7 +148,7 @@ export const POST = async (request: Request) => {
       // @ts-ignore
       await removeUserFromCommunity(public_user_data.user_id, organization.id);
 
-      return NextResponse.json({ message: 'Member removed' }, { status: 201 });
+      return NextResponse.json({ message: 'Member removed' }, { status: 200 });
     } catch (err) {
       console.log(err);
 
@@ -170,7 +170,7 @@ export const POST = async (request: Request) => {
       // @ts-ignore
       await updateCommunityInfo(id, name, slug, logo_url);
 
-      return NextResponse.json({ message: 'Member removed' }, { status: 201 });
+      return NextResponse.json({ message: 'Member removed' }, { status: 200 });
     } catch (err) {
       console.log(err);
 
@@ -194,7 +194,7 @@ export const POST = async (request: Request) => {
 
       return NextResponse.json(
         { message: 'Organization deleted' },
-        { status: 201 },
+        { status: 200 },
       );
     } catch (err) {
       console.log(err);

@@ -8,7 +8,7 @@ import User from '../models/user.model';
 import Thread from '../models/thread.model';
 import Community from '../models/community.model';
 
-export async function fetchThreads(pageNumber = 1, pageSize = 20) {
+export async function fetchThreads(pageNumber = 1, pageSize = 10) {
   try {
     connectToDB();
 

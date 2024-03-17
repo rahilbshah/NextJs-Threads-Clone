@@ -20,7 +20,7 @@ const CommunitiesPage = async ({
   const { communities, isNext } = await fetchCommunities({
     searchString: searchParams.q,
     pageNumber: searchParams?.page ? +searchParams.page : 1,
-    pageSize: 25,
+    pageSize: 10,
   });
   return (
     <>

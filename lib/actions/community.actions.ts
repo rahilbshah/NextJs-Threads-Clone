@@ -36,11 +36,6 @@ export async function createCommunity(
     });
 
     const createdCommunity = await newCommunity.save();
-
-    // Update User model
-    if (!user.communities.includes(createdCommunity._id)) {
-      user.communities.push(createdCommunity._id);
-    }
     await user.save();
 
     return createdCommunity;

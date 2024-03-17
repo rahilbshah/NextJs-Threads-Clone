@@ -271,14 +271,12 @@ export async function deleteCommunity(communityId: string) {
     connectToDB();
 
     // Find the community by its ID and delete it
-    const deletedCommunity = await Community.findOne({
-      id: communityId,
-    });
+    const deletedCommunity = await Community.findById(communityId);
 
     if (!deletedCommunity) {
       throw new Error('Community not found');
     }
-    await Community.deleteOne({ id: communityId });
+    await Community.findByIdAndDelete(communityId);
     // Delete all threads associated with the community
     await Thread.deleteMany({ community: communityId });
 
